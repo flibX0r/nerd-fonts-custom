@@ -78,6 +78,9 @@ class font_patcher:
         PreviousSymbolFilename = ""
         symfont = None
 
+        # Set source font encoding to UnicodeFull to support the Material Design Icons
+        self.sourceFont.encoding = 'UnicodeFull'
+
         for patch in self.patch_set:
             if patch['Enabled']:
                 if PreviousSymbolFilename != patch['Filename']:
@@ -376,22 +379,17 @@ class font_patcher:
         
         SYM_ATTR_DEFAULT = {
             # 'pa' == preserve aspect ratio
-            'default': {'align': 'c', 'valign': 'c', 'stretch': 'pa', 'params': ''}
+            'default': {'align': '', 'valign': '', 'stretch': '', 'params': ''}
         }
 
         SYM_ATTR_FONTA = {
             # 'pa' == preserve aspect ratio
-            'default': {'align': 'c', 'valign': 'c', 'stretch': 'pa', 'params': ''},
-
-            # Don't center these arrows vertically
-            0xf0dc: {'align': 'c', 'valign': '', 'stretch': 'pa', 'params': ''},
-            0xf0dd: {'align': 'c', 'valign': '', 'stretch': 'pa', 'params': ''},
-            0xf0de: {'align': 'c', 'valign': '', 'stretch': 'pa', 'params': ''}
+            'default': {'align': 'c', 'valign': 'c', 'stretch': '', 'params': ''},
         }
 
         CUSTOM_ATTR = {
             # 'pa' == preserve aspect ratio
-            'default': {'align': 'c', 'valign': '', 'stretch': '', 'params': ''}
+            'default': {'align': '', 'valign': '', 'stretch': '', 'params': ''}
         }
 
         # Most glyphs we want to maximize during the scale.  However, there are some
@@ -403,12 +401,12 @@ class font_patcher:
         # Define the character ranges
         # Symbol font ranges
         self.patch_set = [
-            {'Enabled': self.args.devicon,              'Name': "Devicons",                'Filename': "devicon.ttf",                      'Exact': True,                                'SymStart':   0xE600, 'SymEnd':   0xEC04, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'di-'},
-            {'Enabled': self.args.fontawesome,          'Name': "Font Awesome",            'Filename': "Font Awesome 5 Pro-Solid-900.otf", 'Exact': True,                                'SymStart':   0xF000, 'SymEnd':   0xF8FF, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_FONTA,   'GlyphPrefix': 'fa-'},
-            {'Enabled': self.args.fontawesome,          'Name': "Font Awesome 0xE000",     'Filename': "Font Awesome 5 Pro-Solid-900.otf", 'Exact': False,                               'SymStart':   0xEF01, 'SymEnd':   0xEF86, 'SrcStart': 0xE001, 'SrcEnd': 0xE086, 'ScaleGlyph': None, 'Attributes': SYM_ATTR_FONTA,   'GlyphPrefix': 'fa-'},
-            {'Enabled': self.args.material,             'Name': "Material",                'Filename': "materialdesignicons-webfont.ttf",  'Exact': True,                                'SymStart': 0x0F0001, 'SymEnd': 0x0F1743, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'md-'},
-            {'Enabled': self.args.fontlinux,            'Name': "Font Logos (Font Linux)", 'Filename': "font-logos.ttf",                   'Exact': self.fontlinuxExactEncodingPosition, 'SymStart':   0xF100, 'SymEnd':   0xF11C, 'SrcStart': 0xF300, 'SrcEnd': 0xF31C, 'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'lf-'},
-            {'Enabled': self.args.custom,               'Name': "Custom",                  'Filename': self.args.custom,                   'Exact': True,                                'SymStart':   0x0000, 'SymEnd':   0x0000, 'SrcStart': 0x0000, 'SrcEnd': 0x0000, 'ScaleGlyph': None, 'Attributes': CUSTOM_ATTR,      'GlyphPrefix': 'custom-'}
+            {'Enabled': self.args.devicon,              'Name': "Devicons",                'Filename': "devicon.ttf",                       'Exact': True,  'SymStart':   0xE600, 'SymEnd':   0xEC04, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'di-'},
+            {'Enabled': self.args.fontawesome,          'Name': "Font Awesome",            'Filename': "Font Awesome 5 Free-Solid-900.otf", 'Exact': True,  'SymStart':   0xF000, 'SymEnd':   0xF8FF, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'fa-'},
+            {'Enabled': self.args.fontawesome,          'Name': "Font Awesome 0xE000",     'Filename': "Font Awesome 5 Free-Solid-900.otf", 'Exact': False, 'SymStart':   0xE000, 'SymEnd':   0xE086, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'fa-'},
+            {'Enabled': self.args.material,             'Name': "Material",                'Filename': "materialdesignicons-webfont.ttf",   'Exact': True,  'SymStart': 0x0F0000, 'SymEnd': 0x0F1743, 'SrcStart': None,   'SrcEnd': None,   'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'md-'},
+            {'Enabled': self.args.fontlinux,            'Name': "Font Logos (Font Linux)", 'Filename': "font-logos.ttf",                    'Exact': False, 'SymStart':   0xF100, 'SymEnd':   0xF12D, 'SrcStart': 0xEE00, 'SrcEnd': 0xEE2D, 'ScaleGlyph': None, 'Attributes': SYM_ATTR_DEFAULT, 'GlyphPrefix': 'lf-'},
+            {'Enabled': self.args.custom,               'Name': "Custom",                  'Filename': self.args.custom,                    'Exact': True,  'SymStart':   0x0000, 'SymEnd':   0x0000, 'SrcStart': 0x0000, 'SrcEnd': 0x0000, 'ScaleGlyph': None, 'Attributes': CUSTOM_ATTR,      'GlyphPrefix': 'custom-'}
         ]
 
 
@@ -748,14 +746,14 @@ def update_progress(progress):
     A value at 1 or bigger represents 100%
     modified from: https://stackoverflow.com/questions/3160699/python-progress-bar
     """
-    barLength = 40  # Modify this to change the length of the progress bar
+    barLength = 72  # Modify this to change the length of the progress bar
     if isinstance(progress, int):
         progress = float(progress)
     if progress >= 1:
         progress = 1
         status = "Done...\r\n"  # NOTE: status initialized and never used
     block = int(round(barLength * progress))
-    text = "\r╢{0}╟ {1}%".format("█" * block + "░" * (barLength - block), int(progress * 100))
+    text = "\r\u2551{0}\u2551 {1: >3}%".format("\u2588" * block + "\u2591" * (barLength - block), int(progress * 100))
     sys.stdout.write(text)
     sys.stdout.flush()
 

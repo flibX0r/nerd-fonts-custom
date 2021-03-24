@@ -13,8 +13,7 @@ The [font-patcher](font-patcher.py) script is taken from the [Nerd Fonts](https:
 | Font Awesome 5  | `F000` - `F8FF`     | Unchanged           |
 |                 | `E000` - `E086`     | Unchanged for now   |
 | Material Design | `0F0000` - `0F1743` | Unchanged           |
-| Linux Logos     | `F300` - `F31C`     | `EE00` - `EE1C`     |
-
+| Linux Logos     | `F100` - `F12D`     | `EE00` - `EE2D`     |
 
 ## TODO
 
